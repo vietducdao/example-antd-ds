@@ -13,9 +13,14 @@ interface DataType {
 interface ColumnsProps {
   data: DataType[];
   handleDelete: (key: string) => void;
+  handleUpdate: (key: DataType) => void;
 }
 
-const Columns: React.FC<ColumnsProps> = ({ data, handleDelete }) => {
+const Columns: React.FC<ColumnsProps> = ({
+  data,
+  handleDelete,
+  handleUpdate,
+}) => {
   const columns: TableProps<DataType>["columns"] = [
     {
       title: "Name",
@@ -39,7 +44,7 @@ const Columns: React.FC<ColumnsProps> = ({ data, handleDelete }) => {
       render: (_, record: DataType) => (
         <Space size="middle">
           <a onClick={() => handleDelete(record.key)}>Delete</a>
-          <a>Fill</a>
+          <a onClick={() => handleUpdate(record)}>Update</a>
         </Space>
       ),
     },

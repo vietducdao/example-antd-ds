@@ -1,18 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button } from "antd";
 
-interface AddPersonFormProps {
-  onFinish: (values: any) => void;
-  onCancel: () => void;
+interface DataType {
+  key: string;
+  name: string;
+  age: number;
+  address: string;
+  tags: string[];
 }
 
-const Add: React.FC<AddPersonFormProps> = ({ onFinish, onCancel }) => {
+interface AddPersonFormProps {
+  onFinish: (values: DataType) => void;
+  onCancel: () => void;
+  onUpdate?: (values: DataType) => void;
+  itemUpdate?: DataType | null;
+}
+
+const FormAdd: React.FC<AddPersonFormProps> = ({
+  onFinish,
+  onCancel,
+  onUpdate,
+  itemUpdate,
+}) => {
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (itemUpdate) {
+      form.setFieldsValue(itemUpdate);
+    } else {
+      form.resetFields();
+    }
+  }, [itemUpdate, form]);
+
+  const handleSubmit = (values: DataType) => {
+    if (itemUpdate) {
+      if (onUpdate) {
+        onUpdate({ ...values, key: itemUpdate.key });
+      }
+    } else {
+      onFinish(values);
+    }
+  };
+
   return (
-    <Form
-      layout="vertical"
-      onFinish={onFinish}
-      initialValues={{ name: "", age: "", address: "" }}
-    >
+    <Form form={form} layout="vertical" onFinish={handleSubmit}>
       <Form.Item
         name="name"
         label="Name"
@@ -35,8 +66,8 @@ const Add: React.FC<AddPersonFormProps> = ({ onFinish, onCancel }) => {
         <Input />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Submit
+        <Button type="primary" htmlType="submit" style={{ marginLeft: "8px" }}>
+          {itemUpdate ? "Update" : "Submit"}
         </Button>
         <Button onClick={onCancel} style={{ marginLeft: "8px" }}>
           Cancel
@@ -46,4 +77,4 @@ const Add: React.FC<AddPersonFormProps> = ({ onFinish, onCancel }) => {
   );
 };
 
-export default Add;
+export default FormAdd;

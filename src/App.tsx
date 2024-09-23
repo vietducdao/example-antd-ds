@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Columns from "./columns";
 import FormAdd from "./FormAdd";
+import TextField from "./TextField";
 
 interface DataType {
   key: string;
@@ -35,25 +36,67 @@ const App: React.FC = () => {
     },
   ]);
 
-  const handleAdd = (values: DataType) => {
-    const newData = [...data, { ...values, key: (data.length + 1).toString() }];
+  const [editingData, setEditingData] = useState<DataType | null>(null);
+  const [search, setSearch] = useState("");
+
+  const AddUser = (newUser: DataType) => {
+    const newData = [
+      ...data,
+      { ...newUser, key: (data.length + 1).toString() },
+    ];
     setData(newData);
-    console.log("Người mới đã được thêm:", values);
+    setEditingData(null);
   };
 
   const handleCancel = () => {
-    console.log("Form đã được hủy");
+    setEditingData(null);
   };
 
   const handleDelete = (key: string) => {
-    setData((prevData) => prevData.filter((item) => item.key !== key));
-    console.log("Người đã được xóa:", key);
+    setData(data.filter((item) => item.key !== key));
   };
+
+  const handleUpdate = (itemUpdate: DataType) => {
+    const index = data.findIndex((item) => item.key === itemUpdate.key);
+    if (index !== -1) {
+      const newData = [...data];
+      newData[index] = { ...itemUpdate };
+      setData(newData);
+    }
+    setEditingData(null);
+  };
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+  };
+
+  const filteredData = data.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="App">
-      <Columns data={data} handleDelete={handleDelete} />
-      <FormAdd onFinish={handleAdd} onCancel={handleCancel} />
+      <h1>Quản lý người dùng</h1>
+
+      <TextField
+        placeholder="Tìm kiếm theo tên"
+        value={search}
+        onChange={handleSearchChange}
+        width="250px"
+      />
+
+      <Columns
+        data={filteredData}
+        handleDelete={handleDelete}
+        handleUpdate={setEditingData}
+      />
+
+      <FormAdd
+        onFinish={AddUser}
+        onCancel={handleCancel}
+        onUpdate={handleUpdate}
+        itemUpdate={editingData}
+      />
     </div>
   );
 };
