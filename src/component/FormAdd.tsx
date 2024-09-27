@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Form, Input, Button } from "antd";
+import { useDispatch } from "react-redux";
+import { adduser } from "../pages/addUser/SliceAddUser";
 
 interface DataType {
   key: string;
   name: string;
   age: number;
   address: string;
-  tags: string[];
 }
 
 interface AddPersonFormProps {
@@ -19,31 +20,21 @@ interface AddPersonFormProps {
 const FormAdd: React.FC<AddPersonFormProps> = ({
   onFinish,
   onCancel,
-  onUpdate,
   itemUpdate,
 }) => {
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (itemUpdate) {
-      form.setFieldsValue(itemUpdate);
-    } else {
-      form.resetFields();
-    }
-  }, [itemUpdate, form]);
-
-  const handleSubmit = (values: DataType) => {
-    if (itemUpdate) {
-      if (onUpdate) {
-        onUpdate({ ...values, key: itemUpdate.key });
-      }
-    } else {
-      onFinish(values);
+  const onSubmit = (values: DataType) => {
+    if (!itemUpdate) {
+      const newUser = { ...values, key: new Date().toISOString() };
+      dispatch(adduser(newUser)); // addUser từ store
+      onFinish(newUser);
     }
   };
 
   return (
-    <Form form={form} layout="vertical" onFinish={handleSubmit}>
+    <Form form={form} layout="vertical" onFinish={onSubmit}>
       <Form.Item
         name="name"
         label="Name"
@@ -66,8 +57,8 @@ const FormAdd: React.FC<AddPersonFormProps> = ({
         <Input />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ marginLeft: "8px" }}>
-          {itemUpdate ? "Update" : "Submit"}
+        <Button type="primary" htmlType="submit">
+          {itemUpdate ? "Update" : "Add User"}
         </Button>
         <Button onClick={onCancel} style={{ marginLeft: "8px" }}>
           Cancel

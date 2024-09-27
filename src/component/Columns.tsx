@@ -13,7 +13,7 @@ interface DataType {
 interface ColumnsProps {
   data: DataType[];
   handleDelete: (key: string) => void;
-  handleUpdate: (key: DataType) => void;
+  handleUpdate: (user: DataType) => void;
 }
 
 const Columns: React.FC<ColumnsProps> = ({
