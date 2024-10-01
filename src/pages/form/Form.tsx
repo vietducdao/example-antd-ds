@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FormAdd from "../../component/FormAdd";
 import { useDispatch, useSelector } from "react-redux";
-import { adduser } from "../addUser/SliceAddUser";
+import { adduser, deleteuser } from "../addUser/SliceUser";
 import Columns from "../../component/Columns";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,7 @@ interface DataType {
   name: string;
   age: number;
   address: string;
+  tags: string[];
 }
 
 const FormAddPage: React.FC = () => {
@@ -21,10 +22,14 @@ const FormAddPage: React.FC = () => {
 
   const addUser = (newUser: DataType) => {
     console.log("User added:", newUser);
-
-    dispatch(adduser({ ...newUser, key: Math.random().toString() }));
+    dispatch(
+      adduser({
+        ...newUser,
+        tags: newUser.tags || [],
+        key: Math.random().toString(),
+      })
+    );
     setEditingData(null);
-
     navigate("/column");
   };
 
@@ -38,18 +43,17 @@ const FormAddPage: React.FC = () => {
 
   const handleDeleteUser = (key: string) => {
     console.log("Delete user with key:", key);
+    dispatch(deleteuser(key));
   };
 
   return (
     <div>
       <h1>{editingData ? "Edit User" : "Add User"}</h1>
-
       <FormAdd
         onFinish={addUser}
         onCancel={handleCancel}
         itemUpdate={editingData}
       />
-
       <Columns
         data={users}
         handleDelete={handleDeleteUser}

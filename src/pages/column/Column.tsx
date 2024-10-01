@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import Columns from "../../component/Columns";
 import TextField from "../../component/TextField";
 import { Button, Flex } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
 
 interface DataType {
   key: string;
@@ -39,6 +41,17 @@ const ColumnsPage: React.FC = () => {
 
   const [search, setSearch] = useState<string>("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const users = useSelector((state: RootState) => state.users.users);
+
+  console.log(users);
+
+  React.useEffect(() => {
+    if (location.state && location.state.newUser) {
+      const newUser = location.state.newUser as DataType;
+      setData((prevData) => [...prevData, newUser]);
+    }
+  }, [location.state]);
 
   const handleSearchChange = (value: string) => {
     setSearch(value);

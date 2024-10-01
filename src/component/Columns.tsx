@@ -48,6 +48,12 @@ const Columns: React.FC<ColumnsProps> = ({
         </Space>
       ),
     },
+    {
+      title: "Tags",
+      dataIndex: "tags",
+      key: "tags",
+      render: (tags) => tags?.join(", ") || "No Tags",
+    },
   ];
 
   return <Table columns={columns} dataSource={data} />;

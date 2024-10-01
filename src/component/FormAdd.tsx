@@ -1,20 +1,21 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
 import { useDispatch } from "react-redux";
-import { adduser } from "../pages/addUser/SliceAddUser";
+import { adduser } from "../pages/addUser/SliceUser";
 
 interface DataType {
   key: string;
   name: string;
   age: number;
   address: string;
+  tags: string[];
 }
 
 interface AddPersonFormProps {
   onFinish: (values: DataType) => void;
   onCancel: () => void;
   onUpdate?: (values: DataType) => void;
-  itemUpdate?: DataType | null;
+  itemUpdate: DataType | null;
 }
 
 const FormAdd: React.FC<AddPersonFormProps> = ({
