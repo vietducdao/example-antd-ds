@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import FormAdd from "./pages/form/Form";
-import Columns from "./pages/column/Column";
+import HomePage from "./pages/homepage";
+import LoginPage from "./pages/loginpage";
 
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/form" element={<FormAdd />} />
-      <Route path="/column" element={<Columns />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<LoginPage />} />
     </Routes>
   );
 }

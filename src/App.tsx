@@ -1,15 +1,17 @@
-import AppRoutes from "../router";
-import Header from "../component/Header";
+import React from "react";
+import AppRoutes from "./router";
 import { BrowserRouter as Router } from "react-router-dom";
+// import { ThemeProvider } from "./noUse/store/ThemeContext";
 
 function App() {
   return (
+    // <ThemeProvider>
     <Router>
       <div className="App">
-        <Header />
         <AppRoutes />
       </div>
     </Router>
+    // </ThemeProvider>
   );
 }
 

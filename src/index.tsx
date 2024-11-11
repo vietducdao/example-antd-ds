@@ -1,24 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./style/App";
+import "./tailwind.css";
+import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ConfigProvider } from "antd";
-import { Provider } from "react-redux";
-import { store } from "./store/store";
+// import { UserProvider } from "./noUse/store/UserContext";
+// import { ThemeProvider } from "./noUse/store/ThemeContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <Provider store={store}>
-    <ConfigProvider theme={{ token: { colorPrimary: "#00b96b" } }}>
-      <App />
-    </ConfigProvider>
-  </Provider>
+  // <ThemeProvider>
+  //   <UserProvider>
+  <ConfigProvider theme={{ token: { colorPrimary: "#00b96b" } }}>
+    <App />
+  </ConfigProvider>
+  //   </UserProvider>
+  // </ThemeProvider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Đo lường hiệu suất
 reportWebVitals();
