@@ -1,5 +1,3 @@
-import React from "react";
-
 type ButtonProps = {
   label: string;
   onClick: () => void;
@@ -14,13 +12,10 @@ const Button: React.FC<ButtonProps> = ({
   additionalClasses = "",
 }) => {
   return (
-    <button
-      onClick={onClick}
-      className={`flex  items-center justify-center space-x-2 ${additionalClasses}`}
-    >
-      {direction === "left" && <span>←</span>}
+    <button onClick={onClick} className={`${additionalClasses}`}>
+      {direction === "left" && <span className="p-3"> ← </span>}
       <span>{label}</span>
-      {direction === "right" && <span>→</span>}
+      {direction === "right" && <span className="p-3"> → </span>}
     </button>
   );
 };

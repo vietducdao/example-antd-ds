@@ -4,15 +4,21 @@ type TextProps = {
   children: React.ReactNode;
   isBold?: boolean;
   additionalClasses?: string;
+  className?: string;
 };
 
 const Text: React.FC<TextProps> = ({
   children,
   isBold = false,
   additionalClasses = "",
+  className = "",
 }) => {
   return (
-    <p className={`${isBold ? "font-bold" : ""} ${additionalClasses}`}>
+    <p
+      className={`${
+        isBold ? "font-bold" : ""
+      } ${className} ${additionalClasses}`}
+    >
       {children}
     </p>
   );
